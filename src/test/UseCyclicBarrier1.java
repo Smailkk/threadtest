@@ -12,24 +12,19 @@ import java.util.concurrent.CyclicBarrier;
  * @Copyright: Copyright© 2019
  * @Description: java <br/>
  * @Company: 北京黑岩信息技术有限公司 www.heiyan.com
- * @Created on 2019/10/12 zhaokai
+ * @Created on 2019/10/14 zhaokai
  */
-public class UseCyclicBarrier {
-
-    /**
-     * 放行条件=线程数
-     * 一个或者多个线程 等待目标线程执行完成后      继续执行
-     */
+public class UseCyclicBarrier1 {
 
     private static CyclicBarrier barrier
-            = new CyclicBarrier(5,new CollectThread());
+            = new CyclicBarrier(5,new UseCyclicBarrier1.CollectThread());
 
     private static ConcurrentHashMap<String,Long> resultMap
             = new ConcurrentHashMap<>();//存放子线程工作结果的容器
 
     public static void main(String[] args) {
         for(int i=0;i<=4;i++){
-            Thread thread = new Thread(new SubThread());
+            Thread thread = new Thread(new UseCyclicBarrier1.SubThread());
             thread.start();
         }
 
@@ -44,9 +39,9 @@ public class UseCyclicBarrier {
             for(Map.Entry<String,Long> workResult:resultMap.entrySet()){
                 result.append("["+workResult.getValue()+"]");
             }
-            System.out.println(" 等待线程 = "+ result);
- //           SleepTools.second(10);
-            System.out.println("执行目标工作........");
+            System.out.println(" 准备就绪的运动员 = "+ result);
+            SleepTools.second(5);
+            System.out.println("发令枪打响........");
         }
     }
 
@@ -61,12 +56,12 @@ public class UseCyclicBarrier {
             try {
                 if(r.nextBoolean()) {
                     Thread.sleep(2000+id);
-                    System.out.println("Thread_"+id+" ....去做其他的事 ");
+                    System.out.println("运动员_"+id+" ....迟到了");
                 }
-                System.out.println(id+"....正在等待");
+                System.out.println("运动员_"+id+"....准备就绪");
                 barrier.await();
                 Thread.sleep(1000+id);
-                System.out.println("Thread_"+id+" ....继续工作 ");
+                System.out.println("运动员_"+id+" ....开始奔跑 ");
             } catch (Exception e) {
                 e.printStackTrace();
             }
