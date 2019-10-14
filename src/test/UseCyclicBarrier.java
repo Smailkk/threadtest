@@ -1,5 +1,7 @@
 package test;
 
+import tools.SleepTools;
+
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,6 +15,12 @@ import java.util.concurrent.CyclicBarrier;
  * @Created on 2019/10/12 zhaokai
  */
 public class UseCyclicBarrier {
+
+    /**
+     * 放行条件=线程数
+     * 一个或者多个线程 等待目标线程执行完成后      继续执行
+     */
+
     private static CyclicBarrier barrier
             = new CyclicBarrier(5,new CollectThread());
 
@@ -37,6 +45,7 @@ public class UseCyclicBarrier {
                 result.append("["+workResult.getValue()+"]");
             }
             System.out.println(" 等待线程 = "+ result);
+            SleepTools.second(10);
             System.out.println("执行目标工作........");
         }
     }

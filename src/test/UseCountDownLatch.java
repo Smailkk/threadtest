@@ -13,6 +13,10 @@ import java.util.concurrent.CountDownLatch;
  */
 public class UseCountDownLatch {
 
+    /**
+     * 放行条件》=线程数
+     * 一个或者多个线程  等待其他线程完成相关任务后  再执行
+     */
     static CountDownLatch latch = new CountDownLatch(6);
 
     //初始化线程(只有一步，有4个)
@@ -65,7 +69,11 @@ public class UseCountDownLatch {
                 latch.countDown();//每完成一步初始化工作，扣减一次
             }
         }).start();
+
+
         new Thread(new BusiThread()).start();
+
+
         for(int i=0;i<=3;i++){
             Thread thread = new Thread(new InitThread());
             thread.start();
